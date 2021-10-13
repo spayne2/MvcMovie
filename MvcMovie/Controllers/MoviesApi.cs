@@ -21,10 +21,26 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies(string searchString, string movieGenre)
         {
-            Console.Out.WriteLine("Get all Movies");
-            return await _context.Movie.ToListAsync();
+            IQueryable<string> genreQuery = from m in _context.Movie
+                                            orderby m.Genre
+                                            select m.Genre;
+
+            var movies = from m in _context.Movie
+                         select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title.Contains(searchString));
+            }
+
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.Genre == movieGenre);
+            }
+
+            return await movies.ToListAsync();
         }
 
         [HttpGet("{id}")]
