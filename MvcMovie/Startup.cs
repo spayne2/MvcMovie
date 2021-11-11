@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MvcMovie.Data;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MvcMovie
 {
@@ -26,6 +27,7 @@ namespace MvcMovie
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+           
             //  services.AddDbContext<MvcMovieContext>(options =>
             //   options.UseSqlServer(Configuration.GetConnectionString("MvcMovieContext")));
             services.AddDbContext<MvcMovieContext>(options => options.UseSqlite(Configuration.GetConnectionString("MVCMovieContext")));
@@ -38,6 +40,8 @@ namespace MvcMovie
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+         
+      
             }
             else
             {
